@@ -1,0 +1,10 @@
+type User @key(fields: "id") {
+  id: ID! @external
+  account: Account
+}
+
+type Account {
+  id: ID!
+  userId: ID!
+  balance: Int!
+}

@@ -1,0 +1,8 @@
+type Query {
+  all_users: [User!]!
+}
+
+type User @key(fields: "id") {
+  id: ID!
+  name: String!
+}
