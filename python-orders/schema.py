@@ -46,6 +46,6 @@ class User:
 class Query:
     all_orders: typing.List[Order] = strawberry.field(resolver= get_orders)
 
-schema = strawberry.federation.Schema(query=Query, types=[User])
+schema = strawberry.federation.Schema(query=Query, types=[User], enable_federation_2=True)
 
 
