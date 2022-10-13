@@ -24,20 +24,23 @@ testOrders = [
 ]
 
 def get_orders(root: 'User') -> typing.List[Order]:
-    if root == None:
         return testOrders
-    
+
+
+def get_user_order(root: 'User') -> typing.List[Order]:
     result = []
     for order in testOrders:
         if order.userId == root.id:
+            print(order)
             result.append(order)
+    return result
 #######################
 
 
-@strawberry.federation.type(extend=True, keys=["id"])
+@strawberry.federation.type(keys=["id"])
 class User:
-    id: strawberry.ID = strawberry.federation.field(external=True)
-    orders: typing.List[Order] =strawberry.field(resolver= get_orders)
+    id: strawberry.ID
+    orders: typing.List[Order] =strawberry.field(resolver= get_user_order)
     @classmethod
     def resolve_reference(cls, id: strawberry.ID):
         return User(id=id)
@@ -46,6 +49,6 @@ class User:
 class Query:
     all_orders: typing.List[Order] = strawberry.field(resolver= get_orders)
 
-schema = strawberry.federation.Schema(query=Query, types=[User], enable_federation_2=True)
+schema = strawberry.federation.Schema(query=Query, types=[User, Order], enable_federation_2=True)
 
 
